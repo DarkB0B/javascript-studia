@@ -1,0 +1,49 @@
+#slider
+{
+position: relative;
+  
+  padding: 0;
+  height: 200px;
+  list-style: none;
+}
+
+#photo
+{
+position: relative;
+  display: block;
+  margin:auto;
+  padding: 0;
+  width: 500px;
+  height: 300px;
+  background: #ccc;
+  line-height: 300px;
+}
+#prevBtn, #nextBtn {
+    position: absolute;
+    top: 40%;
+    z-index: 999;
+    display: block;
+    padding: 4% 3%;
+    width: auto;
+    height: auto;
+    background: #2a2a2a;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 18px;
+    opacity: 0.8;
+    cursor: pointer;
+  }
+  #prevBtn:hoover, #nextBtn:hover {
+    opacity: 1;
+    -webkit-transition: all 0.2s ease;
+  }
+  
+  #prevBtn {
+    border-radius: 0 2px 2px 0;
+  }
+  
+  #nextBtn {
+    right: 0;
+    border-radius: 2px 0 0 2px;
+  }
