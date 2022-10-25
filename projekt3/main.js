@@ -1,20 +1,11 @@
 document.addEventListener('keypress', onKeyPress)
-let track1 = []
+let records = [];
+recording = {
+    isrecording: false,
+    channel: 1
+}
 
-function startRecording(track)
-{
-    const start = Date.now
-    document.addEventListener('keypress', record)
-    
-}
-function record(event)
-{
-    const yes{
-        key: key, 
-        timestamp = Date.now
-    }
-    track.push
-}
+
 
 
 function onKeyPress(event)
@@ -52,11 +43,35 @@ function onKeyPress(event)
     }
     playSound(sound)
 }
-
+function startRecording(sound){
+    if(recording.isrecording){
+        var record = {soundName: sound, timestamp: Date.now()}
+        records.push(record)
+    }
+    playSound(sound)
+}
 
 function playSound(sound){
     console.log(sound)
-    const audioTag = document.querySelector('#' + sound)
+    const audioTag = document.querySelector(`#${sound}`)
     audioTag.currentTime = 0
     audioTag.play()
 }
+document.querySelector("#play").addEventListener("click", () => {
+    for(let i = 0; i < records.length; i++){
+        setTimeout(() => {
+            playSound(records[i].soundName)
+        }, records[i].timestamp - records[i].timestamp)
+    }
+})
+document.querySelector("#record").addEventListener("click", () => {
+    if(!document.querySelector("#play").checked){
+        records = [];
+    }
+    else{
+        recording = {
+            isrecording: true,
+            channel: 1
+        }
+    }
+})
