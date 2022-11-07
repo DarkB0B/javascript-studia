@@ -1,15 +1,11 @@
-export class Note{
-    title
-    content
-    createDate
-    tags
-    id
-    constructor(x)
+export class Note{   
+    constructor(color, title, text, date)
     {
-        this.title = x.title
-        this.content = x.content
-        this.createDate = x.createDate
-        this.tags = x.tags
-        this.id = x.id
+        this.title = title
+        this.text = text
+        this.date = date
+        this.color = color
+        //this.tags = x.tags
+        //this.id = x.id
     }
 }
