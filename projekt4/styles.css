@@ -27,6 +27,8 @@ ul {
     background-color: #04AA6D;
   }
  #newnote {
+    display: flex;
+    flex-direction: column;
     border: yellow;
     border-radius: 5px;
     padding: 40px;
@@ -37,18 +39,20 @@ ul {
     position: static;
     
  }
- #newnote.input{
-    padding: 20px;
+ input#newnoteinterior{
+  width: 650%;
+  min-height: 50px;
+  
  }
  input#submit:hover{
     background-color: #45a049;
  }
  input#submit {
     text-align: center;
-    width: 50%;
+    width: 20%;
     background-color: #4CAF50;
     color: white;
-    margin: auto;
+    margin: 15px;
     border: none;
     border-radius: 4px;
     cursor: pointer;

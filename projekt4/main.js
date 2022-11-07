@@ -1,4 +1,4 @@
-import { Note } from "./note";
+//import { Note } from "./note";
 let notes = [];
 document.querySelector("#create").addEventListener("click", () => {
     document.getElementById("sauce").innerHTML = " "
@@ -7,17 +7,18 @@ document.querySelector("#create").addEventListener("click", () => {
     //---- Title
     const newnotetitle = document.createElement("input");
     newnotetitle.setAttribute("type", "text");
+    newnotetitle.setAttribute("maxlength", "20")
     newnotetitle.setAttribute("id", "newnotetitle");
     const titlelabel = document.createElement("label");
     titlelabel.setAttribute("for", "newnotetitle");
     titlelabel.innerHTML = "Title: "
     //---- Note
-    const newnoteinterior = document.createElement("input");
-    newnoteinterior.setAttribute("type", "text");
+    const newnoteinterior = document.createElement("textarea");
     newnoteinterior.setAttribute("id", "newnoteinterior");
     const interiorlabel = document.createElement("label");
     interiorlabel.setAttribute("for", "newnoteinterior");
     interiorlabel.innerHTML = "Note: "
+    
     //---- Submit
     const submitbutton = document.createElement("input");
     submitbutton.setAttribute("value", "Submit")
