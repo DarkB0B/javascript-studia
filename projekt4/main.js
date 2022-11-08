@@ -1,5 +1,6 @@
 
 let notes = [];
+
 let colors = ["green", "black", "yellow", "red"];
 
 class Note{   
@@ -14,6 +15,10 @@ class Note{
     }
 }
 
+
+//---- On Startup
+showNotes();
+
 //---- Create
 document.querySelector("#create").addEventListener("click", () => {
     createNote();
@@ -24,9 +29,7 @@ document.querySelector("#create").addEventListener("click", () => {
 
 document.querySelector("#show").addEventListener("click", () => {
     
-    notes.forEach(note => {
-        
-    });
+    showNotes()
 })
 
 
@@ -52,6 +55,60 @@ function submitClick(){
     })
 }
 
+function formatDate(inputDate){
+    let date, month, year, hours, minutes;
+    date = inputDate.getDate();
+    month = inputDate.getMonth() + 1;   
+    year = inputDate.getFullYear();
+    hours = inputDate.getHours();
+    minutes = inputDate.getMinutes();
+    if (date < 10) {
+        date = '0' + date;
+    }
+      
+    if (month < 10) {
+        month = '0' + month;
+    }
+    if (hours < 10){
+        hours = '0' + hours;
+    }
+    if (minutes < 10){
+        minutes = '0' + minutes;
+    }
+      
+    return(date + '.' + month + '.' + year + "  " + hours + ':' + minutes);
+}
+function showNotes(){
+    document.getElementById("sauce").innerHTML = " "
+    notes.forEach(note => {
+        const notecolor = note.color;
+
+        const noteObj = document.createElement("div");
+        noteObj.classList.add("noteObj");
+        noteObj.id = note.date;
+        noteObj.style.borderColor = notecolor;
+
+        const notetitle = document.createElement("div");
+        notetitle.innerHTML = note.title;
+        notetitle.classList.add("title");
+        notetitle.style.color = notecolor;
+
+        const notetext = document.createElement("div");
+        notetext.innerHTML = note.text;
+        notetext.classList.add("text");
+        
+        const notedate = document.createElement("div");
+        notedate.innerHTML = formatDate(note.date);
+        notedate.classList.add("date");
+
+        noteObj.appendChild(notetitle);
+        noteObj.appendChild(notetext);
+        noteObj.appendChild(notedate);
+        
+        document.getElementById("sauce").appendChild(noteObj);
+
+    });
+}
 function createNote(){
     document.getElementById("sauce").innerHTML = " "
     const newnote = document.createElement("div");
@@ -104,3 +161,4 @@ function createNote(){
 
     submitClick();
 }
+
