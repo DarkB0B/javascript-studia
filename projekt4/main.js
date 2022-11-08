@@ -1,17 +1,17 @@
 
 let notes = [];
-
+let notecounter = 0;
 let colors = ["green", "black", "yellow", "red"];
 
 class Note{   
-    constructor(color, title, text, date)
+    constructor(color, title, text, date, id)
     {
         this.title = title
         this.text = text
         this.date = date
         this.color = color
         //this.tags = x.tags
-        //this.id = x.id
+        this.id = id
     }
 }
 
@@ -29,10 +29,22 @@ document.querySelector("#create").addEventListener("click", () => {
 
 document.querySelector("#show").addEventListener("click", () => {
     
-    showNotes()
+    showNotes();
+    deleteClick();
 })
 
+function deleteClick(){
+   const buttons = document.querySelectorAll(".deleteBtn");
+   buttons.forEach(button => {
+    console.log(buttons);
+    document.getElementById(button.id).addEventListener("click", () => {
+        notes.splice(button.value, 1)
+        showNotes();
+        deleteClick();
+    })
+   })
 
+}
 function submitClick(){
     //---- SubmitOnClick
     document.querySelector("#submit").addEventListener("click", () => {
@@ -48,9 +60,9 @@ function submitClick(){
             }
         })
        
-        const notee = new Note(thiscolor, title, interior, date,);
+        const notee = new Note(thiscolor, title, interior, date, notecounter);
         notes.push(notee);
-        console.log(notes);
+        notecounter++;
         createNote();
     })
 }
@@ -79,10 +91,10 @@ function formatDate(inputDate){
     return(date + '.' + month + '.' + year + "  " + hours + ':' + minutes);
 }
 function showNotes(){
+    
     document.getElementById("sauce").innerHTML = " "
     notes.forEach(note => {
         const notecolor = note.color;
-
         const noteObj = document.createElement("div");
         noteObj.classList.add("noteObj");
         noteObj.id = note.date;
@@ -101,11 +113,19 @@ function showNotes(){
         notedate.innerHTML = formatDate(note.date);
         notedate.classList.add("date");
 
+        const deleteBtn = document.createElement("div");
+        deleteBtn.classList.add("deleteBtn");
+        deleteBtn.id = note.id;
+        deleteBtn.innerHTML = "X";
+
+        noteObj.appendChild(deleteBtn);
         noteObj.appendChild(notetitle);
         noteObj.appendChild(notetext);
         noteObj.appendChild(notedate);
         
+        
         document.getElementById("sauce").appendChild(noteObj);
+        
 
     });
 }
