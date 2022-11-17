@@ -1,0 +1,25 @@
+body, html{
+    margin: 0; 
+ }
+.container{
+    height: 100%;
+    width: 100%;
+}
+.ball{
+    position: absolute;
+    height:40px;
+    width:40px;
+    left: 1px;
+    top: 1px;
+    border-radius: 50%;
+}
+ .hole {
+    position: absolute; 
+    left: 1px;
+    top: 1px;
+    background-color: #555;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    box-shadow: 2px 2px 2px #000 inset;
+ }
