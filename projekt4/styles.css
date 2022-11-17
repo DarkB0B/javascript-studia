@@ -19,7 +19,7 @@ ul {
     text-decoration: none;
   }
   
-  /* Change the link color to #111 (black) on hover */
+  
   li a:hover {
     background-color: #111;
   }
@@ -57,6 +57,15 @@ ul {
     
     
   }
+  .contolbtns{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+      margin: auto;
+    width: 100%;
+    margin-top: 2px;
+     
+  }
   .deleteBtn{
     text-align: center;
     width:18px;
@@ -67,6 +76,21 @@ ul {
     background-color: red;
     border-radius: 50%;
     cursor:pointer;
+      
+  }
+  
+  .pinBtn {
+      flex-basis: 18px;
+      align-self: end;
+      text-align: center;
+      width:18px;
+      height: 18px;
+      color:white;
+      font-weight: bolder;
+      border:2px solid white;
+      background-color: mediumvioletred;
+      border-radius: 50%;
+      cursor:pointer;
   }
  .noteObj {
     display: flex;

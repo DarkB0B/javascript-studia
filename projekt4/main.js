@@ -10,6 +10,7 @@ class Note{
         this.text = text
         this.date = date
         this.color = color
+        this.pin = false
         //this.tags = x.tags
         this.id = id
     }
@@ -31,7 +32,20 @@ document.querySelector("#show").addEventListener("click", () => {
     
     showNotes();
     deleteClick();
+    pinClick();
 })
+
+function pinClick(){
+    const buttons = document.querySelectorAll(".pinBtn");
+    buttons.forEach(button => {
+        document.getElementById(button.id).addEventListener("click", () => {
+            console.log(button.id);
+            notes[button.id].pin = true;
+            showNotes();
+            pinClick();
+        })
+    })
+}
 
 function deleteClick(){
    const buttons = document.querySelectorAll(".deleteBtn");
@@ -117,8 +131,19 @@ function showNotes(){
         deleteBtn.classList.add("deleteBtn");
         deleteBtn.id = note.id;
         deleteBtn.innerHTML = "X";
-
-        noteObj.appendChild(deleteBtn);
+     
+        const pinBtn = document.createElement("div");
+        pinBtn.classList.add("pinBtn");
+        pinBtn.id = note.id;
+        pinBtn.innerHTML = "P";
+        
+        const contolbtns = document.createElement("div");
+        contolbtns.classList.add("contolbtns");
+        contolbtns.appendChild(pinBtn);
+        contolbtns.appendChild(deleteBtn);
+        
+        
+        noteObj.appendChild(contolbtns);
         noteObj.appendChild(notetitle);
         noteObj.appendChild(notetext);
         noteObj.appendChild(notedate);
