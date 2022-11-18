@@ -43,21 +43,17 @@ function moveBall(){
     
 //generate circular div in random position on screen
 function generateHole(){
-    hole = document.createElement("div");
+    let hole = document.createElement("div");
     hole.classList.add("hole");
     hole.id = holeId;
     let randomX = Math.floor(Math.random() * (window.innerHeight - 100)) + "px";
     let randomY= Math.floor(Math.random() * (window.innerWidth - 100)) + "px";
-    while(randomX = window.innerHeight/2){
-        randomX = Math.floor(Math.random() * (window.innerHeight - 100)) + "px";
-    }
-    while(randomY = window.innerWidth/2){
-        randomY = Math.floor(Math.random() * (window.innerHeight - 100)) + "px";
-    }
+    
 
-    hole.style.top = randomX;
-    hole.style.left = randomY;
+    hole.style.top = randomY;
+    hole.style.left = randomX;
     container.appendChild(hole);
+    console.log("hole has been generated");
     holes.push(hole);
     holeId ++;
 }
@@ -71,8 +67,9 @@ function generateBall(){
     ball.style.left = posX;
     ball.style.background = "rgb(" + Math.floor(Math.random() * 255) + "," + Math.floor(Math.random() * 255) + "," + Math.floor(Math.random() * 255) + ")";
     container.appendChild(ball);
+    console.log("ball has been generated");
 }
 
 reset();
-window.requestAnimationFrame(moveBall);
+//window.requestAnimationFrame(moveBall);
   

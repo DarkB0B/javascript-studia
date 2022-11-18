@@ -25,14 +25,12 @@ document.querySelector("#create").addEventListener("click", () => {
     createNote();
 })
 
-
 //----ShowNotes
 
 document.querySelector("#show").addEventListener("click", () => {
     
     showNotes();
-    deleteClick();
-    pinClick();
+    
 })
 
 function pinClick(){
@@ -54,11 +52,27 @@ function deleteClick(){
     document.getElementById(button.id).addEventListener("click", () => {
         notes.splice(button.value, 1)
         showNotes();
-        deleteClick();
+        
     })
    })
-
 }
+
+function editClick(){
+    //edit click
+    const buttons = document.querySelectorAll(".editBtn");      
+    buttons.forEach(button => {
+        document.getElementById(button.id).addEventListener("click", () => {
+            console.log(button.id);
+            console.log("click")
+            editNote(notes[button.id])
+            showNotes();
+            
+        })
+    }  )
+    
+}
+
+
 function submitClick(){
     //---- SubmitOnClick
     document.querySelector("#submit").addEventListener("click", () => {
@@ -77,8 +91,34 @@ function submitClick(){
         const notee = new Note(thiscolor, title, interior, date, notecounter);
         notes.push(notee);
         notecounter++;
-        createNote();
+        showNotes();
     })
+}
+
+function submitClickEdit(id) {
+    document.querySelector("#submit").addEventListener("click", () => {
+        const title = document.querySelector("#newnotetitle").value;
+        const interior = document.querySelector("#newnoteinterior").value;
+        const colorbuttons = document.getElementsByName("color_selector");
+        const date = new Date();
+        let thiscolor; 
+        colorbuttons.forEach(button => {
+            if(button.checked)
+            {
+                thiscolor = button.value;
+            }
+        })
+        notes[id] = new Note(thiscolor, title, interior, date, notecounter);
+        
+        
+        showNotes();
+        
+    })
+}
+function refreshBtns(){
+    deleteClick();
+    pinClick();
+    editClick();
 }
 
 function formatDate(inputDate){
@@ -136,11 +176,18 @@ function showNotes(){
         pinBtn.classList.add("pinBtn");
         pinBtn.id = note.id;
         pinBtn.innerHTML = "P";
+
+        const editBtn = document.createElement("div");
+        editBtn.classList.add("editBtn");
+        editBtn.id = note.id;
+        editBtn.innerHTML = "E";
         
         const contolbtns = document.createElement("div");
         contolbtns.classList.add("contolbtns");
         contolbtns.appendChild(pinBtn);
+        contolbtns.appendChild(editBtn);
         contolbtns.appendChild(deleteBtn);
+        
         
         
         noteObj.appendChild(contolbtns);
@@ -150,10 +197,11 @@ function showNotes(){
         
         
         document.getElementById("sauce").appendChild(noteObj);
-        
 
+        refreshBtns();
     });
 }
+
 function createNote(){
     document.getElementById("sauce").innerHTML = " "
     const newnote = document.createElement("div");
@@ -205,5 +253,59 @@ function createNote(){
     document.getElementById("radio0").checked = true;
 
     submitClick();
+}
+function editNote(note){
+        document.getElementById("sauce").innerHTML = " "
+        //---- Title
+        const newnotetitle = document.createElement("input");
+        newnotetitle.setAttribute("type", "text");
+        newnotetitle.setAttribute("maxlength", "20")
+        newnotetitle.setAttribute("id", "newnotetitle");
+        newnotetitle.value = note.title;
+        const titlelabel = document.createElement("label");
+        titlelabel.setAttribute("for", "newnotetitle");
+        titlelabel.innerHTML = "Title: "
+        //---- Note
+        const newnoteinterior = document.createElement("textarea");
+        newnoteinterior.setAttribute("id", "newnoteinterior");
+        newnoteinterior.value = note.text;
+        const interiorlabel = document.createElement("label");
+        interiorlabel.setAttribute("for", "newnoteinterior");
+        interiorlabel.innerHTML = "Note: "
+        //---- ColorButtons
+        const newnotecolorbuttons = document.createElement("div");
+        newnotecolorbuttons.id = "buttons"
+        newnote.appendChild(newnotecolorbuttons);
+        //---- Submit
+        const submitbutton = document.createElement("input");
+        submitbutton.setAttribute("value", "Submit")
+        submitbutton.id = "submit";
+
+        //---- Append
+        newnote.appendChild(titlelabel);
+        newnote.appendChild(newnotetitle);
+        newnote.appendChild(interiorlabel);
+        newnote.appendChild(newnoteinterior);
+        newnote.appendChild(submitbutton);
+        document.getElementById("sauce").appendChild(newnote);
+
+        //---- ColorButtons2
+        for(var i = 0; i < colors.length; i++){
+            var radio = document.createElement("input");
+            radio.type = "radio"
+            radio.id = "radio" + i
+            radio.name = "color_selector"
+            radio.value = colors[i]
+            const newnotecolorlabel = document.createElement("label")
+            newnotecolorlabel.setAttribute("for", "radio" + i)
+            newnotecolorlabel.innerHTML = radio.value;
+            document.querySelector("#buttons").appendChild(newnotecolorlabel)
+            document.querySelector("#buttons").appendChild(radio)
+        }
+        document.getElementById("radio0").checked = true;
+
+
+        submitClickEdit(note.id);
+    
 }
 

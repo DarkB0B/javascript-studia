@@ -78,6 +78,17 @@ ul {
     cursor:pointer;
       
   }
+  .editBtn{
+    text-align: center;
+    width:18px;
+    height: 18px;
+    color:white;
+    font-weight: bolder;
+    border:2px solid white;
+    background-color: #04AA6D;
+    border-radius: 50%;
+    cursor:pointer;
+  }
   
   .pinBtn {
       flex-basis: 18px;
