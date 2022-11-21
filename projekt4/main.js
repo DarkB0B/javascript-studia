@@ -37,10 +37,19 @@ function pinClick(){
     const buttons = document.querySelectorAll(".pinBtn");
     buttons.forEach(button => {
         document.getElementById(button.id).addEventListener("click", () => {
-            console.log(button.id);
-            notes[button.id].pin = true;
+            //remove first letter from string to get the id
+            let id = button.id.substring(1);
+            console.log("pin Click");
+            if(notes[id].pin === false) {
+                console.log("note has been pinned");
+                notes[id].pin = true;
+            }
+            else if(notes[id].pin === true) {
+                console.log("note has been unpinned");
+                notes[id].pin = false;
+            }
             showNotes();
-            pinClick();
+            
         })
     })
 }
@@ -48,8 +57,10 @@ function pinClick(){
 function deleteClick(){
    const buttons = document.querySelectorAll(".deleteBtn");
    buttons.forEach(button => {
-    console.log(buttons);
+    
     document.getElementById(button.id).addEventListener("click", () => {
+        
+        console.log("delete Click");
         notes.splice(button.value, 1)
         showNotes();
         
@@ -62,10 +73,10 @@ function editClick(){
     const buttons = document.querySelectorAll(".editBtn");      
     buttons.forEach(button => {
         document.getElementById(button.id).addEventListener("click", () => {
-            console.log(button.id);
-            console.log("click")
-            editNote(notes[button.id])
-            showNotes();
+            let id = button.id.substring(1);
+            console.log("edit click")
+            editNote(notes[id])
+            
             
         })
     }  )
@@ -147,6 +158,11 @@ function formatDate(inputDate){
 function showNotes(){
     
     document.getElementById("sauce").innerHTML = " "
+    const pinned = document.createElement("div");
+    pinned.id = "pinned";
+    pinned.classList.add("pinned");
+    document.getElementById("sauce").appendChild(pinned);
+    
     notes.forEach(note => {
         const notecolor = note.color;
         const noteObj = document.createElement("div");
@@ -169,17 +185,17 @@ function showNotes(){
 
         const deleteBtn = document.createElement("div");
         deleteBtn.classList.add("deleteBtn");
-        deleteBtn.id = note.id;
+        deleteBtn.id = "d" + note.id;
         deleteBtn.innerHTML = "X";
      
         const pinBtn = document.createElement("div");
         pinBtn.classList.add("pinBtn");
-        pinBtn.id = note.id;
+        pinBtn.id = "p" + note.id;
         pinBtn.innerHTML = "P";
 
         const editBtn = document.createElement("div");
         editBtn.classList.add("editBtn");
-        editBtn.id = note.id;
+        editBtn.id = "e" + note.id;
         editBtn.innerHTML = "E";
         
         const contolbtns = document.createElement("div");
@@ -195,10 +211,15 @@ function showNotes(){
         noteObj.appendChild(notetext);
         noteObj.appendChild(notedate);
         
-        
-        document.getElementById("sauce").appendChild(noteObj);
+        if(note.pin === false) {
+            document.getElementById("sauce").appendChild(noteObj);
+        }
+        else{
+            document.getElementById("pinned").appendChild(noteObj);
+        }
 
         refreshBtns();
+        console.log("refresh")
     });
 }
 
@@ -256,6 +277,8 @@ function createNote(){
 }
 function editNote(note){
         document.getElementById("sauce").innerHTML = " "
+        const newnote = document.createElement("div");
+        newnote.id = "newnote";
         //---- Title
         const newnotetitle = document.createElement("input");
         newnotetitle.setAttribute("type", "text");
