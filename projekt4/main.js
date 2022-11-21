@@ -18,6 +18,8 @@ class Note{
 
 
 //---- On Startup
+
+getfromstorage();
 showNotes();
 
 //---- Create
@@ -29,6 +31,7 @@ document.querySelector("#create").addEventListener("click", () => {
 
 document.querySelector("#show").addEventListener("click", () => {
     
+    getfromstorage();
     showNotes();
     
 })
@@ -48,6 +51,8 @@ function pinClick(){
                 console.log("note has been unpinned");
                 notes[id].pin = false;
             }
+            savetostorage();
+            getfromstorage();
             showNotes();
             
         })
@@ -102,7 +107,10 @@ function submitClick(){
         const notee = new Note(thiscolor, title, interior, date, notecounter);
         notes.push(notee);
         notecounter++;
+        savetostorage();
+        getfromstorage();
         showNotes();
+        
     })
 }
 
@@ -120,9 +128,10 @@ function submitClickEdit(id) {
             }
         })
         notes[id] = new Note(thiscolor, title, interior, date, notecounter);
-        
-        
+
+        savetostorage();
         showNotes();
+        
         
     })
 }
@@ -130,8 +139,20 @@ function refreshBtns(){
     deleteClick();
     pinClick();
     editClick();
+    savetostorage();
+    getfromstorage();
 }
-
+function savetostorage(){
+    localStorage.setItem("notes", JSON.stringify(notes));
+    localStorage.setItem("notecounter", notecounter);
+}
+function getfromstorage() {
+    notes = JSON.parse(localStorage.getItem("notes"));
+    notecounter = localStorage.getItem("notecounter");
+    if (notes === null) {
+        notes = [];
+    }
+}
 function formatDate(inputDate){
     let date, month, year, hours, minutes;
     date = inputDate.getDate();
@@ -180,7 +201,7 @@ function showNotes(){
         notetext.classList.add("text");
         
         const notedate = document.createElement("div");
-        notedate.innerHTML = formatDate(note.date);
+        notedate.innerHTML = note.date
         notedate.classList.add("date");
 
         const deleteBtn = document.createElement("div");
