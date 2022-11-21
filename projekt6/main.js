@@ -6,8 +6,8 @@ let speedY = 0;
 let posX = window.innerHeight/2 + "px";
 let posY = window.innerWidth/2 + "px";
 let alpha;
-let Y;
-let X;
+let Y = 0;
+let X = 0;
 
 
 
@@ -15,6 +15,7 @@ window.addEventListener('deviceorientation', (event) => {
      alpha = event.alpha;
      Y = event.beta;
      X = event.gamma;
+ 
 });
 
 
@@ -30,15 +31,7 @@ function reset(){
     generateHole();
 }
 
-function moveBall(){
-    speedX = X/45;
-    speedY = Y/45;
-    posX += speedX;
-    posY += speedY;
-    document.getElementsByClassName("ball")[0].style.left = posX;
-    document.getElementsByClassName("ball")[0].style.top = posY;
-
-}    
+ 
 
     
 //generate circular div in random position on screen
@@ -63,13 +56,24 @@ function generateHole(){
 function generateBall(){
     ball = document.createElement("div");
     ball.classList.add("ball");
-    ball.style.top = posY;
-    ball.style.left = posX;
+    ball.id = "ball";
+    ball.style.top = posX;
+    ball.style.left = posY;
     ball.style.background = "rgb(" + Math.floor(Math.random() * 255) + "," + Math.floor(Math.random() * 255) + "," + Math.floor(Math.random() * 255) + ")";
     container.appendChild(ball);
     console.log("ball has been generated");
 }
 
 reset();
-//window.requestAnimationFrame(moveBall);
-  
+
+
+//function running every 333ms
+setInterval(function(){
+    speedX = X/45;
+    speedY = Y/45;
+    posX += speedX;
+    posY += speedY;
+    document.getElementById("ball").style.left = posX;
+    document.getElementById("ball").style.top = posY;
+    console.log("ball has been moved");
+},333);

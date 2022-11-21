@@ -2,15 +2,13 @@ body, html{
     margin: 0; 
  }
 .container{
-    height: 100%;
-    width: 100%;
+    height: 1024px;
+    width: 1024px;
 }
 .ball{
     position: absolute;
     height:40px;
     width:40px;
-    left: 1px;
-    top: 1px;
     border-radius: 50%;
 }
  .hole {
