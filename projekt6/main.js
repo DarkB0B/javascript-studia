@@ -39,8 +39,8 @@ function generateHole(){
     let hole = document.createElement("div");
     hole.classList.add("hole");
     hole.id = holeId;
-    let randomX = Math.floor(Math.random() * (window.innerHeight - 100));
-    let randomY= Math.floor(Math.random() * (window.innerWidth - 100));
+    let randomY = Math.floor(Math.random() * (window.innerHeight - 100));
+    let randomX= Math.floor(Math.random() * (window.innerWidth - 100));
     hole.style.top = randomY + "px";
     hole.style.left = randomX + "px";
     container.appendChild(hole);
