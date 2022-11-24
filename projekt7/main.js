@@ -1,13 +1,13 @@
 
-randomData = [];
+const randomData = [];
 for(var i = 0; i < 100; i++) {
     var randomnumber = Math.floor(Math.random() * 100) + 1;
     randomData.push(randomnumber);
 }
 
-async function asyncAdd(a,b) {
+const asyncAdd = async (a,b) => {
     
-    if (!Number .isInteger(a) || !Number .isInteger(b)) {
+    if (typeof a !== "number" || typeof b !== "number") {
       return Promise.reject('Argumenty muszą mieć typ number!')
     }
     return new Promise((resolve, reject) => {
@@ -19,9 +19,8 @@ async function asyncAdd(a,b) {
 async function asyncAddAndMeasure(inputData) {
     performance.mark('start');
     let result = 0;
-    for(let i = 0; i < inputData.length; i++) {
+    for(let i = 0; i < inputData.length; i++) {     
         let data = inputData[i];
-        console.log(result + " + " + data);
         result = await asyncAdd(result, data);
     }
     console.log("result: " + result);
@@ -30,7 +29,6 @@ async function asyncAddAndMeasure(inputData) {
     let measure = performance.getEntriesByName('start to end');
     console.log("time passed: " + measure[0].duration);
   }
-
 
 asyncAddAndMeasure(randomData);
 
