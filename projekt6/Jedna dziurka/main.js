@@ -12,16 +12,16 @@ let score = 0;
 
 
 window.addEventListener('deviceorientation', (event) => {
-     alpha = event.alpha;
+    alpha = event.alpha;
     speedY = event.beta/17;
     speedX = event.gamma/17;
- 
+
 });
 
 
 function reset(){
     container.innerHTML = "";
-    
+
     holes = [];
     holeId = 0;
     posX = (window.innerHeight/2) - 50;
@@ -38,9 +38,9 @@ function reset(){
     countDown();
 }
 
- 
 
-    
+
+
 //generate circular div in random position on screen
 function generateHole(){
     let hole = document.createElement("div");
@@ -75,18 +75,18 @@ function moveBall() {
     if (posX + speedX < window.innerWidth - 50 && posX + speedX > 0) {
         posX += speedX;
         ball.style.left = posX + "px";
-        
+
     }
     if (posY + speedY < window.innerHeight - 50 && posY + speedY > 0) {
         posY += speedY;
         ball.style.top = posY + "px";
-        
+
     }
     checkCollision();
-    
+
     window.requestAnimationFrame(moveBall)
-    
-    
+
+
 }
 
 function checkCollision(){
@@ -120,16 +120,16 @@ function createScoreAndTimer(){
 }
 function updateScore(){
     let scoreDisplay = document.getElementById("score");
-    scoreDisplay.innerHTML = "Score: " + score;    
+    scoreDisplay.innerHTML = "Score: " + score;
 }
 //count 60 seconds and then stop the game
 function countDown() {
-    
+
     let downloadTimer = setInterval(function () {
         timeleft--;
         if (timeleft <= 0) {
             clearInterval(downloadTimer);
-            
+
             container.innerHTML = "";
             let gameover = document.createElement("div");
             gameover.id = "gameover";
@@ -147,7 +147,7 @@ function countDown() {
             resetButton.innerHTML = "Reset";
             resetButton.addEventListener("click", reset);
             container.appendChild(resetButton);
-            
+
 
         } else {
             document.getElementById("countdown").innerHTML = timeleft + " seconds remaining";
