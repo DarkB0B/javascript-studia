@@ -40,7 +40,7 @@ function pinClick(){
     const buttons = document.querySelectorAll(".pinBtn");
     buttons.forEach(button => {
         document.getElementById(button.id).addEventListener("click", () => {
-            //remove first letter from string to get the id
+            
             let id = button.id.substring(1);
             console.log("pin Click");
             if(notes[id].pin === false) {
@@ -52,7 +52,6 @@ function pinClick(){
                 notes[id].pin = false;
             }
             savetostorage();
-            getfromstorage();
             showNotes();
             
         })
@@ -64,9 +63,13 @@ function deleteClick(){
    buttons.forEach(button => {
     
     document.getElementById(button.id).addEventListener("click", () => {
-        
+        const thisnote = notes.find(element => element.id === button.id.substring(1));
+        const index = notes.indexOf(thisnote);
+        console.log(index)
+        notes.splice(index, 1);
         console.log("delete Click");
-        notes.splice(button.value, 1)
+        console.log(notes);
+        savetostorage();
         showNotes();
         
     })
@@ -108,7 +111,6 @@ function submitClick(){
         notes.push(notee);
         notecounter++;
         savetostorage();
-        getfromstorage();
         showNotes();
         
     })
@@ -143,9 +145,11 @@ function refreshBtns(){
     getfromstorage();
 }
 function savetostorage(){
+    localStorage.removeItem("notes", JSON.stringify(notes));
     localStorage.setItem("notes", JSON.stringify(notes));
     localStorage.setItem("notecounter", notecounter);
 }
+
 function getfromstorage() {
     notes = JSON.parse(localStorage.getItem("notes"));
     notecounter = localStorage.getItem("notecounter");
@@ -177,7 +181,7 @@ function formatDate(inputDate){
     return(date + '.' + month + '.' + year + "  " + hours + ':' + minutes);
 }
 function showNotes(){
-    
+    getfromstorage();
     document.getElementById("sauce").innerHTML = " "
     const pinned = document.createElement("div");
     pinned.id = "pinned";
