@@ -82,9 +82,9 @@ function editClick(){
     const buttons = document.querySelectorAll(".editBtn");      
     buttons.forEach(button => {
         document.getElementById(button.id).addEventListener("click", () => {
-            let id = button.id.substring(1);
+            
             console.log("edit click")
-            editNote(notes[id])
+            editNote(notes.find(element => element.id === button.id.substring(1)));
             
             
         })
@@ -118,6 +118,7 @@ function submitClick(){
 }
 
 function submitClickEdit(id) {
+    console.log("editing")
     document.querySelector("#submit").addEventListener("click", () => {
         const title = document.querySelector("#newnotetitle").value;
         const interior = document.querySelector("#newnoteinterior").value;
@@ -130,8 +131,11 @@ function submitClickEdit(id) {
                 thiscolor = button.value;
             }
         })
-        notes[id] = new Note(thiscolor, title, interior, date, notecounter);
-
+        const thisnote = notes.find(element => element.id === id);
+        const index = notes.indexOf(thisnote);
+        console.log(index);
+        notes[index] = new Note(thiscolor, title, interior, date, notecounter);
+        
         savetostorage();
         showNotes();
         
