@@ -43,13 +43,14 @@ function pinClick(){
             
             let id = button.id.substring(1);
             console.log("pin Click");
-            if(notes[id].pin === false) {
+            if(notes.find(element => element.id === button.id.substring(1)).pin === false) {
                 console.log("note has been pinned");
-                notes[id].pin = true;
+                notes.find(element => element.id === button.id.substring(1)).pin = true;
+                
             }
-            else if(notes[id].pin === true) {
+            else if(notes.find(element => element.id === button.id.substring(1)).pin === true) {
                 console.log("note has been unpinned");
-                notes[id].pin = false;
+                notes.find(element => element.id === button.id.substring(1)).pin = false;
             }
             savetostorage();
             showNotes();
