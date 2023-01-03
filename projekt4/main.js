@@ -25,7 +25,7 @@ showNotes();
 //---- Create
 document.querySelector("#create").addEventListener("click", () => {
     createNote();
-})
+});
 
 //----ShowNotes
 
@@ -34,7 +34,12 @@ document.querySelector("#show").addEventListener("click", () => {
     getfromstorage();
     showNotes();
     
-})
+});
+//----PinnedNotes
+
+document.querySelector("#pin").addEventListener("click", () => {
+    showPinned();
+});
 
 function pinClick(){
     const buttons = document.querySelectorAll(".pinBtn");
@@ -99,7 +104,7 @@ function submitClick(){
         const title = document.querySelector("#newnotetitle").value;
         const interior = document.querySelector("#newnoteinterior").value;
         const colorbuttons = document.getElementsByName("color_selector");
-        const date = new Date();
+        const date = formatDate(new Date());
         let thiscolor; 
         colorbuttons.forEach(button => {
             if(button.checked)
@@ -123,7 +128,7 @@ function submitClickEdit(id) {
         const title = document.querySelector("#newnotetitle").value;
         const interior = document.querySelector("#newnoteinterior").value;
         const colorbuttons = document.getElementsByName("color_selector");
-        const date = new Date();
+        const date = formatDate(new Date());
         let thiscolor; 
         colorbuttons.forEach(button => {
             if(button.checked)
@@ -192,117 +197,30 @@ function showNotes(){
     pinned.id = "pinned";
     pinned.classList.add("pinned");
     document.getElementById("sauce").appendChild(pinned);
-    
+
     notes.forEach(note => {
-        const notecolor = note.color;
-        const noteObj = document.createElement("div");
-        noteObj.classList.add("noteObj");
-        noteObj.id = note.date;
-        noteObj.style.borderColor = notecolor;
-
-        const notetitle = document.createElement("div");
-        notetitle.innerHTML = note.title;
-        notetitle.classList.add("title");
-        notetitle.style.color = notecolor;
-
-        const notetext = document.createElement("div");
-        notetext.innerHTML = note.text;
-        notetext.classList.add("text");
-        
-        const notedate = document.createElement("div");
-        notedate.innerHTML = note.date
-        notedate.classList.add("date");
-
-        const deleteBtn = document.createElement("div");
-        deleteBtn.classList.add("deleteBtn");
-        deleteBtn.id = "d" + note.id;
-        deleteBtn.innerHTML = "X";
-     
-        const pinBtn = document.createElement("div");
-        pinBtn.classList.add("pinBtn");
-        pinBtn.id = "p" + note.id;
-        pinBtn.innerHTML = "P";
-
-        const editBtn = document.createElement("div");
-        editBtn.classList.add("editBtn");
-        editBtn.id = "e" + note.id;
-        editBtn.innerHTML = "E";
-        
-        const contolbtns = document.createElement("div");
-        contolbtns.classList.add("contolbtns");
-        contolbtns.appendChild(pinBtn);
-        contolbtns.appendChild(editBtn);
-        contolbtns.appendChild(deleteBtn);
-        
-        
-        
-        noteObj.appendChild(contolbtns);
-        noteObj.appendChild(notetitle);
-        noteObj.appendChild(notetext);
-        noteObj.appendChild(notedate);
-        
-        if(note.pin === false) {
-            document.getElementById("sauce").appendChild(noteObj);
-        }
-        else{
-            document.getElementById("pinned").appendChild(noteObj);
-        }
-
-        refreshBtns();
-        console.log("refresh")
+        renderNote(note);
     });
+    refreshBtns();
+}
+function showPinned(){
+    getfromstorage();
+    document.getElementById("sauce").innerHTML = " "
+    const pinned = document.createElement("div");
+    pinned.id = "pinned";
+    pinned.classList.add("pinned");
+    document.getElementById("sauce").appendChild(pinned);
+    notes.forEach(note => {
+        if(note.pin === true) {
+            renderNote(note);
+        }
+    });
+    refreshBtns();
 }
 
 function createNote(){
-    document.getElementById("sauce").innerHTML = " "
-    const newnote = document.createElement("div");
-    newnote.id = "newnote";
-    //---- Title
-    const newnotetitle = document.createElement("input");
-    newnotetitle.setAttribute("type", "text");
-    newnotetitle.setAttribute("maxlength", "20")
-    newnotetitle.setAttribute("id", "newnotetitle");
-    const titlelabel = document.createElement("label");
-    titlelabel.setAttribute("for", "newnotetitle");
-    titlelabel.innerHTML = "Title: "
-    //---- Note
-    const newnoteinterior = document.createElement("textarea");
-    newnoteinterior.setAttribute("id", "newnoteinterior");
-    const interiorlabel = document.createElement("label");
-    interiorlabel.setAttribute("for", "newnoteinterior");
-    interiorlabel.innerHTML = "Note: "
-    //---- ColorButtons
-    const newnotecolorbuttons = document.createElement("div");
-    newnotecolorbuttons.id = "buttons"
-    newnote.appendChild(newnotecolorbuttons);
-    //---- Submit
-    const submitbutton = document.createElement("input");
-    submitbutton.setAttribute("value", "Submit")
-    submitbutton.id = "submit";
 
-    //---- Append
-    newnote.appendChild(titlelabel);
-    newnote.appendChild(newnotetitle);
-    newnote.appendChild(interiorlabel);
-    newnote.appendChild(newnoteinterior);
-    newnote.appendChild(submitbutton);
-    document.getElementById("sauce").appendChild(newnote);
-
-    //---- ColorButtons2
-    for(var i = 0; i < colors.length; i++){
-        var radio = document.createElement("input");
-        radio.type = "radio"
-        radio.id = "radio" + i
-        radio.name = "color_selector"
-        radio.value = colors[i]
-        const newnotecolorlabel = document.createElement("label")
-        newnotecolorlabel.setAttribute("for", "radio" + i)
-        newnotecolorlabel.innerHTML = radio.value;
-        document.querySelector("#buttons").appendChild(newnotecolorlabel)
-        document.querySelector("#buttons").appendChild(radio)
-    }
-    document.getElementById("radio0").checked = true;
-
+    renderCreateForm()
     submitClick();
 }
 function editNote(note){
@@ -356,9 +274,120 @@ function editNote(note){
             document.querySelector("#buttons").appendChild(radio)
         }
         document.getElementById("radio0").checked = true;
-
-
+        
+        
         submitClickEdit(note.id);
     
 }
 
+function renderCreateForm()
+{
+    document.getElementById("sauce").innerHTML = " "
+    const newnote = document.createElement("div");
+    newnote.id = "newnote";
+    //---- Title
+    const newnotetitle = document.createElement("input");
+    newnotetitle.setAttribute("type", "text");
+    newnotetitle.setAttribute("maxlength", "20")
+    newnotetitle.setAttribute("id", "newnotetitle");
+    const titlelabel = document.createElement("label");
+    titlelabel.setAttribute("for", "newnotetitle");
+    titlelabel.innerHTML = "Title: "
+    //---- Note
+    const newnoteinterior = document.createElement("textarea");
+    newnoteinterior.setAttribute("id", "newnoteinterior");
+    const interiorlabel = document.createElement("label");
+    interiorlabel.setAttribute("for", "newnoteinterior");
+    interiorlabel.innerHTML = "Note: "
+    //---- ColorButtons
+    const newnotecolorbuttons = document.createElement("div");
+    newnotecolorbuttons.id = "buttons"
+    newnote.appendChild(newnotecolorbuttons);
+    //---- Submit
+    const submitbutton = document.createElement("input");
+    submitbutton.setAttribute("value", "Submit")
+    submitbutton.id = "submit";
+
+    //---- Append
+    newnote.appendChild(titlelabel);
+    newnote.appendChild(newnotetitle);
+    newnote.appendChild(interiorlabel);
+    newnote.appendChild(newnoteinterior);
+    newnote.appendChild(submitbutton);
+    document.getElementById("sauce").appendChild(newnote);
+
+    //---- ColorButtons2
+    for (var i = 0; i < colors.length; i++) {
+        var radio = document.createElement("input");
+        radio.type = "radio"
+        radio.id = "radio" + i
+        radio.name = "color_selector"
+        radio.value = colors[i]
+        const newnotecolorlabel = document.createElement("label")
+        newnotecolorlabel.setAttribute("for", "radio" + i)
+        newnotecolorlabel.innerHTML = radio.value;
+        document.querySelector("#buttons").appendChild(newnotecolorlabel)
+        document.querySelector("#buttons").appendChild(radio)
+    }
+    document.getElementById("radio0").checked = true;
+}
+function renderNote(note){
+    
+        const notecolor = note.color;
+        const noteObj = document.createElement("div");
+        noteObj.classList.add("noteObj");
+        noteObj.id = note.date;
+        noteObj.style.borderColor = notecolor;
+
+        const notetitle = document.createElement("div");
+        notetitle.innerHTML = note.title;
+        notetitle.classList.add("title");
+        notetitle.style.color = notecolor;
+
+        const notetext = document.createElement("div");
+        notetext.innerHTML = note.text;
+        notetext.classList.add("text");
+
+        const notedate = document.createElement("div");
+        notedate.innerHTML = note.date
+        notedate.classList.add("date");
+
+        const deleteBtn = document.createElement("div");
+        deleteBtn.classList.add("deleteBtn");
+        deleteBtn.id = "d" + note.id;
+        deleteBtn.innerHTML = "X";
+
+        const pinBtn = document.createElement("div");
+        pinBtn.classList.add("pinBtn");
+        pinBtn.id = "p" + note.id;
+        pinBtn.innerHTML = "P";
+
+        const editBtn = document.createElement("div");
+        editBtn.classList.add("editBtn");
+        editBtn.id = "e" + note.id;
+        editBtn.innerHTML = "E";
+
+        const contolbtns = document.createElement("div");
+        contolbtns.classList.add("contolbtns");
+        contolbtns.appendChild(pinBtn);
+        contolbtns.appendChild(editBtn);
+        contolbtns.appendChild(deleteBtn);
+
+
+
+        noteObj.appendChild(contolbtns);
+        noteObj.appendChild(notetitle);
+        noteObj.appendChild(notetext);
+        noteObj.appendChild(notedate);
+
+        if(note.pin === true) {
+            document.getElementById("pinned").appendChild(noteObj);
+
+        }
+        else{
+            document.getElementById("sauce").appendChild(noteObj);
+        }
+
+
+    
+}
