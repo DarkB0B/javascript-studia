@@ -58,28 +58,26 @@ function getWeather(inputVal) {
             alert("Please search for a valid city");
         });
 }
-
-getFromStorage();
-render();
-
-setInterval(render, 300000);
-
-//get current locaiton
-if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(position => {
-        let lat = position.coords.latitude;
-        let lon = position.coords.longitude;
-        const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                const { main, name, sys, weather } = data;
-                const icon = `https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/${
-                    weather[0]["icon"]
-                }.svg`;
-                const li = document.createElement("li");
-                li.classList.add("city");
-                const markup = `
+function getWeatherForCurrLocation(){
+        local.innerHTML = "";
+        const heading = document.createElement("h1");
+        heading.classList.add("heading");
+        heading.textContent = "Current Location";
+        local.appendChild(heading);
+        navigator.geolocation.getCurrentPosition(position => {
+            let lat = position.coords.latitude;
+            let lon = position.coords.longitude;
+            const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const { main, name, sys, weather } = data;
+                    const icon = `https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/${
+                        weather[0]["icon"]
+                    }.svg`;
+                    const li = document.createElement("li");
+                    li.classList.add("city");
+                    const markup = `
             <h2 class="city-name" data-name="${name},${sys.country}">
                 <span>${name}</span>
                 <sup>${sys.country}</sup>
@@ -88,29 +86,39 @@ if (navigator.geolocation) {
             <div class="city-temp">${Math.round(main.temp)}<sup>°C</sup></div>
             <figure>
                 <img class="city-icon" src="${icon}" alt="${
-                    weather[0]["description"]
-                }">
+                        weather[0]["description"]
+                    }">
                 <figcaption>${weather[0]["description"]}</figcaption>
             </figure>
             `;
-                    
-                li.innerHTML = markup;
-                local.appendChild(li);
-            })
-            .catch(() => {
-                const err = document.createElement("h2");
-                err.id="errorMsg";
-                err.textContent = "Cannot Find Your Location";
-                local.appendChild(err);
-            });
-    }, error => {
-        const err = document.createElement("h2");
-        err.id="errorMsg";
-        err.textContent = "Cannot Find Your Location";
-        local.appendChild(err);
-    }); 
+
+                    li.innerHTML = markup;
+                    local.appendChild(li);
+                })
+                .catch(() => {
+                    const err = document.createElement("h2");
+                    err.id="errorMsg";
+                    err.textContent = "Cannot Find Your Location";
+                    local.appendChild(err);
+                });
+        }, error => {
+            const err = document.createElement("h2");
+            err.id="errorMsg";
+            err.textContent = "Cannot Find Your Location";
+            local.appendChild(err);
+        });
+
     
 }
+
+getFromStorage();
+render();
+getWeatherForCurrLocation();
+setInterval(render, 300000);
+setInterval(getWeatherForCurrLocation, 300000);
+
+
+
             
 
 
