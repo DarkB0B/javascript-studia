@@ -5,6 +5,7 @@ let balls = [];
 
 canvas.width = window.innerWidth - 20;
 canvas.height = window.innerHeight - 20;
+canvas.border = "1px solid black";
 
 
 function drawBall(ball) {
