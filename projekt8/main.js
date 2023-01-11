@@ -1,11 +1,14 @@
 let canvas = document.getElementById("canvas");
+let ammount = document.querySelector("#ammount").value;
+let onStart = document.querySelector("#start");
+let onReset = document.querySelector("#reset");
 let ctx = canvas.getContext("2d");
 let ballId = 0;
 let balls = [];
 
 canvas.width = window.innerWidth - 20;
-canvas.height = window.innerHeight - 20;
-canvas.border = "1px solid black";
+canvas.height = window.innerHeight - 70;
+
 
 
 function drawBall(ball) {
@@ -36,24 +39,14 @@ function moveBall(ball) {
     ball.y += ball.speedY;
     if (ball.x + ball.radius > canvas.width || ball.x - ball.radius < 0) {
 
-       // setTimeout(function () {
-           // ball.destroyed = true;
-            // balls.splice(balls.indexOf(ball), 1);
-            // generateBall(1);
-            // }, 500);
+       
         ball.speedX = -ball.speedX;
-        // balls.splice(balls.indexOf(ball), 1);
-        // generateBall(2);
+        
     }
     if (ball.y + ball.radius > canvas.height || ball.y - ball.radius < 0) {
-      //  ball.destroyed = true;
-        // setTimeout(function () {
-        //     balls.splice(balls.indexOf(ball), 1);
-        //     generateBall(1);
-        //     }, 500);
+      
         ball.speedY = -ball.speedY;
-        // balls.splice(balls.indexOf(ball), 1);
-        // generateBall(2);
+        
     }
 }
 function draw() {
@@ -92,8 +85,16 @@ function randomSpeed() {
     return Math.round(Math.random()) * 10 - 5;
 }
 
-generateBall(15);
-draw();
+onStart.addEventListener("click", function() {
+    generateBall(ammount);
+    draw();
+});
+onReset.addEventListener("click", function() {
+    location.reload();
+}
+);
+
+
 
 
 
