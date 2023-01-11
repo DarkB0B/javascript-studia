@@ -1,6 +1,6 @@
 
 let notes = [];
-let notecounter = 0;
+
 let colors = ["green", "black", "yellow", "red"];
 
 class Note{   
@@ -48,14 +48,14 @@ function pinClick(){
             
             let id = button.id.substring(1);
             console.log("pin Click");
-            if(notes.find(element => element.id === button.id.substring(1)).pin === false) {
+            if(notes.find(element => element.id == button.id.substring(1)).pin === false) {
                 console.log("note has been pinned");
-                notes.find(element => element.id === button.id.substring(1)).pin = true;
+                notes.find(element => element.id == button.id.substring(1)).pin = true;
                 
             }
-            else if(notes.find(element => element.id === button.id.substring(1)).pin === true) {
+            else if(notes.find(element => element.id == button.id.substring(1)).pin === true) {
                 console.log("note has been unpinned");
-                notes.find(element => element.id === button.id.substring(1)).pin = false;
+                notes.find(element => element.id == button.id.substring(1)).pin = false;
             }
             savetostorage();
             showNotes();
@@ -69,7 +69,7 @@ function deleteClick(){
    buttons.forEach(button => {
     
     document.getElementById(button.id).addEventListener("click", () => {
-        const thisnote = notes.find(element => element.id === button.id.substring(1));
+        const thisnote = notes.find(element => element.id == button.id.substring(1));
         const index = notes.indexOf(thisnote);
         console.log(index)
         notes.splice(index, 1);
@@ -89,7 +89,7 @@ function editClick(){
         document.getElementById(button.id).addEventListener("click", () => {
             
             console.log("edit click")
-            editNote(notes.find(element => element.id === button.id.substring(1)));
+            editNote(notes.find(element => element.id == button.id.substring(1)));
             
             
         })
@@ -112,10 +112,9 @@ function submitClick(){
                 thiscolor = button.value;
             }
         })
-       
-        const notee = new Note(thiscolor, title, interior, date, notecounter);
+        
+        const notee = new Note(thiscolor, title, interior, date, Date.now());
         notes.push(notee);
-        notecounter++;
         savetostorage();
         showNotes();
         
@@ -139,7 +138,7 @@ function submitClickEdit(id) {
         const thisnote = notes.find(element => element.id === id);
         const index = notes.indexOf(thisnote);
         console.log(index);
-        notes[index] = new Note(thiscolor, title, interior, date, notecounter);
+        notes[index] = new Note(thiscolor, title, interior, date, Date.now());
         
         savetostorage();
         showNotes();
@@ -157,12 +156,12 @@ function refreshBtns(){
 function savetostorage(){
     localStorage.removeItem("notes", JSON.stringify(notes));
     localStorage.setItem("notes", JSON.stringify(notes));
-    localStorage.setItem("notecounter", notecounter);
+    
 }
 
 function getfromstorage() {
     notes = JSON.parse(localStorage.getItem("notes"));
-    notecounter = localStorage.getItem("notecounter");
+   
     if (notes === null) {
         notes = [];
     }

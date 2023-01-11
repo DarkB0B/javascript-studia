@@ -20,10 +20,25 @@ function saveToStorage(){
 function render(){
     list.innerHTML = "";
     cities.forEach(city => {
-        getWeather(city);
+        getWeather(city, cities.indexOf(city));
+        
     })
+    
 }
-function getWeather(inputVal) {
+function addListenerToButton(index){
+    
+        document.getElementById("d" + index).addEventListener("click", () => {
+            console.log("delete Click");
+            const thisCity = cities.find(city => city.id == index);
+            const cityindex = cities.indexOf(thisCity);
+            cities.splice(cityindex, 1);
+
+            saveToStorage();
+            render();
+        })
+    
+}
+function getWeather(inputVal, index) {
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${inputVal}&appid=${apiKey}&units=metric`;
 
     fetch(url)
@@ -36,6 +51,7 @@ function getWeather(inputVal) {
 
 
             const markup = `
+        <div id="d${index}" class="deleteBtn">X</div>
         <h2 class="city-name" data-name="${name},${sys.country}">
           <span>${name}</span>
           <sup>${sys.country}</sup>
@@ -48,16 +64,20 @@ function getWeather(inputVal) {
           <figcaption>${weather[0]["description"]}</figcaption>
         </figure>
       `;
+            
+            
             const li = document.createElement("li");
             li.classList.add("city");
             li.innerHTML = markup;
-            list.appendChild(li);
             
+            list.appendChild(li);
+            addListenerToButton(index);
         })
         .catch(() => {
             alert("Please search for a valid city");
         });
 }
+
 function getWeatherForCurrLocation(){
         local.innerHTML = "";
         const heading = document.createElement("h1");

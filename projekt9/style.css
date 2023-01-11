@@ -104,3 +104,18 @@ body {
 .sauce .city{
     margin: 10px;
 }
+.deleteBtn{
+    text-align: center;
+    width:18px;
+    height: 18px;
+    color:white;
+    font-weight: bolder;
+    border:2px solid white;
+    background-color: red;
+    border-radius: 50%;
+    cursor:pointer;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+
+}
