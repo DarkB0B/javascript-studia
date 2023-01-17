@@ -12,7 +12,7 @@ function getFromStorage(){
     cities = JSON.parse(localStorage.getItem("cities"));
     if (cities === null){
         cities = [];
-    }
+}
 }
 function saveToStorage(){
     localStorage.setItem("cities", JSON.stringify(cities));
@@ -29,9 +29,7 @@ function addListenerToButton(index){
     
         document.getElementById("d" + index).addEventListener("click", () => {
             console.log("delete Click");
-            const thisCity = cities.find(city => city.id == index);
-            const cityindex = cities.indexOf(thisCity);
-            cities.splice(cityindex, 1);
+            cities.splice(index, 1);
 
             saveToStorage();
             render();

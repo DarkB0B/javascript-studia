@@ -1,0 +1,11 @@
+.records {
+    width: 130px;
+    border: #111111 1px solid;
+    background-color: lightgreen;
+}
+.records:hover {
+    background-color: green;
+}
+#record {
+    background-color: #c3112d;
+}
